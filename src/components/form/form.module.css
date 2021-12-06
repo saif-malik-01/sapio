@@ -39,7 +39,6 @@ form a{
 @media only screen and (max-width: 600px){
 	.page__formCont{
 		width: 100%;
-		height:100%;
 	}
 	form button{
 		width:100% !important;

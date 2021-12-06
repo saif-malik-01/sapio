@@ -5,7 +5,7 @@ const styles = {
 	root:{
 		position:'absolute',
 		top:'60px',
-		width:'18%',
+		width:'220px',
 		p:1,
 		zIndex:222,
 		border:'solid 1px #3972f6'
