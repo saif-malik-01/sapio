@@ -38,6 +38,7 @@ export default function DrawerLeft({onMenuChange,selectedMenu,open,setOpen}) {
     function handleClick(i){
       if(i!==0){
         onMenuChange(i)
+        if(isSmall) setOpen(false);
         return;
       }
       setOpen(false);
