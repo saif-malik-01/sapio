@@ -11,6 +11,7 @@ export default function Home(){
 
 	const [characters,setCharacters] = useState([]);
 	const [selectedMenu,setSelectedMenu] = useState(1);
+	const [isDrawerOpen,setIsDrawerOpen] = useState(false);
 	const {user} = useContext(AuthContext);
 
     useEffect(()=>{
@@ -59,12 +60,12 @@ export default function Home(){
     }
 
     return(<Box>
-			<TopBar onSearch={handleSearch}/>
+			<TopBar onSearch={handleSearch} onDrawer={()=>setIsDrawerOpen(true)}/>
 			<Grid container>
 			     <Grid item sm={0} md={3}>
-			        <Drawer onMenuChange={handleMenuChange} selectedMenu={selectedMenu}/>
+			        <Drawer onMenuChange={handleMenuChange} selectedMenu={selectedMenu} open={isDrawerOpen} setOpen={setIsDrawerOpen} />
 			     </Grid>
-				 <Grid item container xs={12} md={9} spacing={2} sx={{mt:2,mb:2,p:2}}>
+				 <Grid item container xs={12} md={9} spacing={2} sx={{mt:2,mb:2,p:2}} justifyContent="center">
 				    <RenderList 
 				      type={selectedMenu}
 				      handleClick={selectedMenu === 1 ? handleCharacterSave : handleCharacterDelete}

@@ -15,7 +15,7 @@ const styles = {
       }
 }
 
-export default function DrawerLeft({onMenuChange,selectedMenu}) {
+export default function DrawerLeft({onMenuChange,selectedMenu,open,setOpen}) {
 
     const [isSmall,setIsSmall] = useState(window.innerWidth<900);
   
@@ -35,12 +35,20 @@ export default function DrawerLeft({onMenuChange,selectedMenu}) {
       return {};
     }
 
+    function handleClick(i){
+      if(i!==0){
+        onMenuChange(i)
+        return;
+      }
+      setOpen(false);
+    }
+
   return (
-      <Drawer sx={styles.root} variant="persistent" anchor="left" open={!isSmall}>
+      <Drawer sx={styles.root} variant="persistent" anchor="left" open={!isSmall || open}>
         <List>
           {['Close','Store', 'Collections'].map((text,i) => {
              if(!isSmall && i===0) return null;
-             return <ListItem button key={text} onClick={()=>onMenuChange(i)} sx={renderColor(i)}>
+             return <ListItem button key={text} onClick={()=>handleClick(i)} sx={renderColor(i)}>
                       <ListItemIcon style={renderColor(i)}>
                         {i===1 ? <StoreIcon/> : i===2 ? <CollectionIcon/> : <ArrowIcon/> }
                       </ListItemIcon>

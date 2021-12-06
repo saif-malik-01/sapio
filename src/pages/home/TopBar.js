@@ -1,13 +1,14 @@
 import React,{useState,useRef} from 'react';
-import {Divider,TextField,Grid,Paper,Typography,Button,InputAdornment} from '@mui/material';
+import {Divider,TextField,Grid,Paper,Typography,Button,InputAdornment,IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowIcon from '@mui/icons-material/ArrowForwardIos'
 import CloseIcon from '@mui/icons-material/Close'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { AuthContext } from '../../context/AuthContext';
 import Filter from './Filter';
 
 
-export default function TopBar({onSearch}) {
+export default function TopBar({onSearch,onDrawer}) {
 
     const [openFilter,setOpenFilter] = useState(false);
     const [filter,setFilter] = useState('');
@@ -40,7 +41,9 @@ export default function TopBar({onSearch}) {
     return(
          <Grid container>
             <Grid xs={2} item display="flex" alignItems="center" sx={{p:1}}>
-              <ArrowIcon/>
+             <IconButton onClick={onDrawer}>
+               <ArrowIcon/>
+             </IconButton> 
             </Grid>
             <Grid item xs={10} display="flex" justifyContent="end" alignItems="center" sx={{p:1}}>
                 <Paper elevation={ openFilter ? 4 : 0}>
@@ -63,9 +66,9 @@ export default function TopBar({onSearch}) {
                 <Typography variant="subtitle1" sx={{ml:2,mr:2}} color="text.primary">
                     {user.name}
                 </Typography>
-                <Button onClick={()=>dispatch({ type: "LOGOUT"})} variant="outlined">
-                     Sign Out
-                </Button>
+                <IconButton onClick={()=>dispatch({ type: "LOGOUT"})}>
+                     <LogoutIcon/>
+                </IconButton>
             </Grid>
             <Grid item xs={12}>
                <Divider/>
