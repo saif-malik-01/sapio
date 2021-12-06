@@ -1,0 +1,39 @@
+.page{
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #F5F5F5 ;
+}
+
+.page__formCont{
+	width: 60%;
+	background-color: white;
+	padding: 2rem;
+}
+
+.formCont__img{
+	width: 100%;
+}
+
+form{
+	display:flex;
+	align-items:center;
+	flex-direction:column;
+}
+
+form button{
+	width:80% !important;
+}
+
+form > div{
+	width:80%;
+}
+
+form a{
+    text-decoration: none;
+	color: #397EF6;
+}
+
+
+
