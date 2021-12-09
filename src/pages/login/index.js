@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
 import {TextField,Button} from '@mui/material';
 import { AuthContext } from '../../context/AuthContext';
+import Token from '../../utils/expire';
 import Form from '../../components/form';
 
 export default function Login({onLogin}){
@@ -22,6 +23,7 @@ export default function Login({onLogin}){
    	const userData = JSON.parse(localStorage.getItem(email));
    	if(userData && "name" in userData){
    		if(userData.password === password){
+   			Token.store(email);
    			dispatch({ type: "LOGIN_SUCCESS", payload: {email,name:userData.name} });
    		}else{
    	      setError('Password does not match');
@@ -38,7 +40,7 @@ export default function Login({onLogin}){
 		    <TextField 
 		          margin="dense"  
 		          required label="Email"
-		          error={error} 
+		          error={Boolean(error)} 
 		          variant="outlined" 
 		          value={inputs.email}
 		          name="email"
@@ -49,7 +51,7 @@ export default function Login({onLogin}){
 		          margin="dense" 
 		          inputProps={{type:"password"}} 
 		          required label="Password" 
-		          error={error} 
+		          error={Boolean(error)} 
 		          name="password"
 		          value={inputs.password}
 		          helperText={error}

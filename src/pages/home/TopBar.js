@@ -22,6 +22,12 @@ export default function TopBar({onSearch,onDrawer}) {
         e.target.search.value = '';
     }
 
+    function handleLogout() {
+        localStorage.clear(); 
+        document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+        dispatch({ type: "LOGOUT"})
+    }
+
     function inputAdornmentStart(){      
         if(filter === '') return null
         return (<InputAdornment position="start">
@@ -66,7 +72,7 @@ export default function TopBar({onSearch,onDrawer}) {
                 <Typography variant="subtitle1" sx={{ml:2,mr:2}} color="text.primary">
                     {user.name}
                 </Typography>
-                <IconButton onClick={()=>dispatch({ type: "LOGOUT"})}>
+                <IconButton onClick={handleLogout}>
                      <LogoutIcon/>
                 </IconButton>
             </Grid>

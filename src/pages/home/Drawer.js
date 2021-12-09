@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {List,ListItem,ListItemIcon,ListItemText,Typography,Drawer} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
 import StoreIcon from '@mui/icons-material/ShoppingBagRounded';
 import CollectionIcon from '@mui/icons-material/ArchiveRounded';
 import ArrowIcon from '@mui/icons-material/ArrowBackIosNewRounded';
@@ -18,6 +19,7 @@ const styles = {
 export default function DrawerLeft({onMenuChange,selectedMenu,open,setOpen}) {
 
     const [isSmall,setIsSmall] = useState(window.innerWidth<900);
+    const navigate = useNavigate();
   
     useEffect(()=>{
         function handleWindowSize(e){
@@ -36,7 +38,8 @@ export default function DrawerLeft({onMenuChange,selectedMenu,open,setOpen}) {
     }
 
     function handleClick(i){
-      if(i!==0){
+      if(i !== 0){
+        navigate(i===1? '/store' : '/collections')
         onMenuChange(i)
         if(isSmall) setOpen(false);
         return;

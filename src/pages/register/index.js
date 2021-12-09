@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {TextField,Button} from '@mui/material';
 import { AuthContext } from '../../context/AuthContext';
 import {isEmail,isPassword} from '../../utils/validation'
+import Token from '../../utils/expire';
 import Form from '../../components/form'
 
 export default function Register(){
@@ -22,10 +23,10 @@ export default function Register(){
    	e.preventDefault();
    	if(emailError || passwordError) return;
    	try{
-   		const {name,password,email} = inputs;
-   		const userData = JSON.stringify({name,password})
-	   	localStorage.setItem(email,userData);
-	   	dispatch({ type: "LOGIN_SUCCESS", payload: {email,name,password} });
+   		const {email,password,name} = inputs;
+   		localStorage.setItem(email,JSON.stringify({password,name}));
+   		Token.store(email);
+	   	dispatch({ type: "LOGIN_SUCCESS", payload: {email,name} });
    	}catch(err){console.log(err)}
    }
 
@@ -44,7 +45,7 @@ export default function Register(){
 	         />
 		      <TextField 
 		       margin="dense" 
-		       error={emailError}
+		       error={Boolean(emailError)}
 		       required label="Email" 
 		       variant="outlined" 
 		       placeholder="some@mail.com"
@@ -55,7 +56,7 @@ export default function Register(){
 		      />
 			   <TextField 
 			     margin="dense"
-			     error={passwordError} 
+			     error={Boolean(passwordError)} 
 			     inputProps={{type:"password"}} 
 			     required label="Password" 
 			     variant="outlined"

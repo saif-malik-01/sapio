@@ -1,5 +1,6 @@
 import React,{useState,useEffect,useContext} from 'react';
 import {Grid,Box} from '@mui/material';
+import {Routes, Route,Outlet} from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import {getCharacters,getCharactersBy} from '../../api/character';
 import Drawer from './Drawer';
@@ -13,10 +14,10 @@ export default function Home(){
 	const [selectedMenu,setSelectedMenu] = useState(1);
 	const [isDrawerOpen,setIsDrawerOpen] = useState(false);
 	const {user} = useContext(AuthContext);
-
+    
     useEffect(()=>{
     	getCharacters()
-    	.then((data)=>setCharacters(data))
+       .then((d)=>setCharacters(d));
     },[])
 
     async function handleSearch(key,value){
@@ -27,12 +28,13 @@ export default function Home(){
     }
 
     async function handleMenuChange(type){
-    	if(type===1){   	   
+    	if(type === 1){   	   
     	   setSelectedMenu(type);
     	   setCharacters([]);
     	   const data = await getCharacters();
     	   setCharacters(data);
     	}else{
+    		setCharacters([]);
     		const data = JSON.parse(sessionStorage.getItem(user.email));
     		setSelectedMenu(type);
     		if(data) setCharacters(data);
@@ -44,6 +46,10 @@ export default function Home(){
     	const collections = sessionStorage.getItem(user.email);
     	if(collections){
     		const prevData = JSON.parse(collections);
+    		if(prevData.find((c)=>c.id === character.id)){
+    			alert('This character is already saved!');
+    			return;
+    		}
     		const newData = JSON.stringify([...prevData,character])
     		sessionStorage.setItem(user.email,newData);
     	}else{
@@ -59,19 +65,21 @@ export default function Home(){
     	sessionStorage.setItem(user.email,JSON.stringify(newData));
     }
 
-    return(<Box>
+    return(<Box>  	 
 			<TopBar onSearch={handleSearch} onDrawer={()=>setIsDrawerOpen(true)}/>
 			<Grid container>
 			     <Grid item sm={0} md={3}>
-			        <Drawer onMenuChange={handleMenuChange} selectedMenu={selectedMenu} open={isDrawerOpen} setOpen={setIsDrawerOpen} />
+			        <Drawer selectedMenu={selectedMenu} onMenuChange={handleMenuChange} open={isDrawerOpen} setOpen={setIsDrawerOpen} />
 			     </Grid>
 				 <Grid item container xs={12} md={9} spacing={2} sx={{mt:2,mb:2,p:2}} justifyContent="center">
-				    <RenderList 
-				      type={selectedMenu}
-				      handleClick={selectedMenu === 1 ? handleCharacterSave : handleCharacterDelete}
-				      characters={characters}
-				    />
+				 <Outlet/>
+				 <Routes>
+		           <Route path="store" element={<RenderList handleClick={handleCharacterSave} characters={characters}  type={1}/>} />
+		           <Route path="collections" element={<RenderList handleClick={handleCharacterDelete} characters={characters}  type={2}/>} />
+		         </Routes>			   
 				</Grid>		
 			</Grid>
 		</Box>)
 }
+
+

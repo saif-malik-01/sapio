@@ -16,10 +16,8 @@ export default function UserCard({name,species,status,gender,image,onBtnClick,id
     <Card sx={{ maxWidth: 255 }} variant="outlined">
       <CardContent>
         <Grid container justifyContent="center">
-          <Grid item xs={3}>
-            <Avatar alt={name} src={image} />
-          </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={12} container display='flex' alignItems='center' direction='column'>
+            <Avatar alt={name} src={image} sx={{width:'150px',height:'150px'}}/>
             <Typography varient="h5">{name}</Typography>
             <Typography variant="body2" color="text.secondary">Status: {status}</Typography>
           </Grid>

@@ -4,11 +4,13 @@ const character = axios.create({
 	baseURL:'https://rickandmortyapi.com/api/character',
 })
 
-
-export async function getCharacters(){
+let characters = [];
+export async function getCharacters(i=1){
 	try{
-		const {data} = await character.get('/');
-		return data.results;
+         const {data} = await character.get(`/?page=${i}`);
+         characters = [...characters,...data.results];
+         if(characters.length<50) return getCharacters(++i)
+         return characters.splice(0,50);
 	}catch(err){
 		console.log(err.message);
 	}
